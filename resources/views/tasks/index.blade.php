@@ -17,30 +17,44 @@
     </div>
     <div class="container">
         <form action="{{ route('tasks.index') }}" method="GET">
-            <div class="row mb-3">
-                <div class="col-md-4">
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
                     <select name="sort" class="form-select" id="sort">
                         <option value="" @if(empty(request()->get('sort'))) selected @endif>Sort By...</option>
                         <option value="priority" @if(request()->get('sort') == 'priority') selected @endif>Priority</option>
                         <option value="due_date" @if(request()->get('sort') == 'due_date') selected @endif>Due Date</option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-sm-6 col-md-3">
+                    <select name="order" class="form-select" id="order">
+                        <option value="asc" @if(empty(request()->get('order'))) selected @endif>Order By...</option>
+                        <option value="asc" @if(request()->get('order') == 'Ascending') selected @endif>Ascending</option>
+                        <option value="desc" @if(request()->get('order') == 'Descending') selected @endif>Descending </option>
+                    </select>
+                </div>
+                <div class="col-sm-6 col-md-3">
                     <select name="status" class="form-select" id="status">
                         <option value="" @if(empty(request()->get('status'))) selected @endif>Filter By Status...</option>
                         <option value="pending" @if(request()->get('status') == 'pending') selected @endif>Pending</option>
                         <option value="in_progress" @if(request()->get('status') == 'in_progress') selected @endif>In Progress</option>
                         <option value="completed" @if(request()->get('status') == 'completed') selected @endif>Completed</option>
                     </select>
+                    
                 </div>
-                <div class="col-md-4">
+                <div class="col-sm-6 col-md-3">
                     <button type="submit" class="btn btn-primary">Filter & Sort</button>
                 </div>
+                <div class="col-sm-6 col-md-3">
+                <label for="page_record">Records per page</label>
+                <input type="number" name="page_record" id="page_record">
+                </div>
+                
             </div>
         </form>
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
+                    <th>Id</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Priority</th>
@@ -52,6 +66,7 @@
             <tbody>
                 @foreach ($tasks as $task)
                 <tr>
+                    <td>{{ $task->id }}</td>
                     <td>{{ $task->title }}</td>
                     <td>{{ Str::limit($task->description, 50) }}</td>
                     <td>{{ $task->priority }}</td>
